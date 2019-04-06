@@ -38,15 +38,16 @@ const ListTextStyled = styled(Text)`
 `;
 
 export const Decks = ({ navigationHandler, decks }) => {
-  return decks.length ? (
+  return decks && Object.keys(decks).length ? (
     <FlatList
-      data={decks}
+      data={Object.entries(decks)}
+      keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
         <TouchableContainer onPress={() => navigationHandler('Deck')} underlayColor={theme.colors.white}>
           <TouchableView>
-            <ListTextStyled>{item.title}</ListTextStyled>
+            <ListTextStyled>{item[1].title}</ListTextStyled>
             <ListTextStyled small as={View}>
-              <ListTextStyled>{item.questions.length}</ListTextStyled>
+              <ListTextStyled>{item[1].questions.length}</ListTextStyled>
             </ListTextStyled>
           </TouchableView>
         </TouchableContainer>
@@ -59,6 +60,8 @@ export const Decks = ({ navigationHandler, decks }) => {
       <TextButton title="Go to New Deck" onPress={() => navigationHandler('NewDeck')} />
     </ViewStyled>
   );
+
+  return null;
 };
 
 Decks.propTypes = {

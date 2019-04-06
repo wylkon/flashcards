@@ -2,6 +2,10 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { StatusBar, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon, Constants } from 'expo';
+import { createStore } from 'redux';
+import reducer from './reducers';
+import { Provider } from 'react-redux';
+
 import AppNavigator from './navigation/AppNavigator';
 import { Container } from './components';
 import { theme } from './theme';
@@ -27,14 +31,16 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <ThemeProvider theme={theme}>
-          <Container>
-            <StatusHeight>
-              <StatusBar translucent barStyle="light-content" />
-            </StatusHeight>
-            <AppNavigator />
-          </Container>
-        </ThemeProvider>
+        <Provider store={createStore(reducer)}>
+          <ThemeProvider theme={theme}>
+            <Container>
+              <StatusHeight>
+                <StatusBar translucent barStyle="light-content" />
+              </StatusHeight>
+              <AppNavigator />
+            </Container>
+          </ThemeProvider>
+        </Provider>
       );
     }
   }

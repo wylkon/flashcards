@@ -1,5 +1,9 @@
 import React from 'react';
 import { ExpoConfigView } from '@expo/samples';
+import { SafeAreaView } from 'react-navigation';
+
+// removes extra space at top of header on android
+SafeAreaView.setStatusBarHeight(0);
 
 export default class Deck extends React.Component {
   static navigationOptions = {

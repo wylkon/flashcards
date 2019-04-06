@@ -1,8 +1,10 @@
 import React from 'react';
-import { AsyncStorage, ActivityIndicator, TextInput, KeyboardAvoidingView } from 'react-native';
+import { ActivityIndicator, TextInput, KeyboardAvoidingView } from 'react-native';
 import styled from 'styled-components';
-import { createDeck } from '../utils/storage';
+import { connect } from 'react-redux';
 
+import { createDeck } from '../utils/storage';
+import { addDeck } from '../actions';
 import { theme } from '../theme';
 import { Title, TextButton } from '../components';
 import { Container } from '../components/StyledContainers';
@@ -22,7 +24,7 @@ const TextInputStyled = styled(TextInput)`
   text-align: center;
 `;
 
-export default class LinksScreen extends React.Component {
+class NewDeck extends React.Component {
   state = {
     deckName: '',
     loading: false,
@@ -35,18 +37,32 @@ export default class LinksScreen extends React.Component {
   };
 
   createNewDeck = () => {
+    const {
+      navigation: { navigate },
+      addDeck,
+    } = this.props;
     const { deckName } = this.state;
+    const newDeck = { [deckName]: { title: deckName, questions: [] } };
 
     this.isLoading(true);
 
-    createDeck().then(success => {
-      this.isLoading(false);
-      this.props.navigator.navigate('Home');
-    });
+    createDeck(newDeck)
+      .then(() => {
+        addDeck(newDeck);
+      })
+      .then(() => {
+        this.setState({
+          deckName: '',
+        });
+        this.isLoading(false);
+        navigate('Home');
+      });
   };
 
   render() {
     const { deckName, loading } = this.state;
+    const { decks } = this.props;
+    const isDuplicated = Object.keys(decks).filter(item => item === deckName).length === 1;
 
     return loading ? (
       <Container>
@@ -60,8 +76,17 @@ export default class LinksScreen extends React.Component {
           placeholder="Type here a name of deck"
           onChangeText={deckName => this.setState({ deckName })}
         />
-        <TextButton title="Submit" onPress={this.createNewDeck} />
+        <TextButton title="Submit" onPress={this.createNewDeck} disabled={deckName.trim() === '' || isDuplicated} />
       </ViewStyled>
     );
   }
 }
+
+const mapStateToProps = decks => ({
+  decks,
+});
+
+export default connect(
+  mapStateToProps,
+  { addDeck }
+)(NewDeck);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Button = styled(TouchableOpacity)`
   background-color: ${({ theme }) => theme.colors.purple};
@@ -8,6 +8,12 @@ const Button = styled(TouchableOpacity)`
   padding: 16px;
   margin-top: 16px;
   border-radius: 4px;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background-color: ${({ theme }) => theme.colors.gray};
+    `}
 `;
 
 const StyledText = styled(Text)`
@@ -16,8 +22,8 @@ const StyledText = styled(Text)`
   text-align: center;
 `;
 
-export const TextButton = ({ onPress, title }) => (
-  <Button onPress={onPress}>
+export const TextButton = ({ onPress, title, disabled }) => (
+  <Button onPress={onPress} disabled={disabled}>
     <StyledText>{title}</StyledText>
   </Button>
 );

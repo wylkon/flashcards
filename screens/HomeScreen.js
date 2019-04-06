@@ -1,12 +1,13 @@
 import React from 'react';
-import { Container, Decks } from '../components';
+import { connect } from 'react-redux';
 import { ActivityIndicator } from 'react-native';
+import { Container, Decks } from '../components';
 import { theme } from '../theme';
 import { getDeck } from '../utils/storage';
+import { receiveDecks } from '../actions';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   state = {
-    decks: [],
     loading: false,
   };
 
@@ -23,13 +24,18 @@ export default class HomeScreen extends React.Component {
   };
 
   retrieveData = () => {
+    const { receiveDecks } = this.props;
     this.isLoading(true);
-    getDeck().then(success => {
-      this.setState({
-        decks: success ? success : [],
-        loading: false,
+
+    getDeck()
+      .then(success => {
+        receiveDecks(success);
+      })
+      .then(() => {
+        this.setState({
+          loading: false,
+        });
       });
-    });
   };
 
   componentDidMount() {
@@ -37,7 +43,8 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    const { decks, loading } = this.state;
+    const { decks } = this.props;
+    const { loading } = this.state;
 
     return (
       <Container>
@@ -50,3 +57,12 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = decks => ({
+  decks,
+});
+
+export default connect(
+  mapStateToProps,
+  { receiveDecks }
+)(HomeScreen);
