@@ -1,48 +1,51 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { Text, FlatList, View } from 'react-native';
-import { Container, TouchableContainer } from '../components';
-import { mockData } from '../constants/mock';
-
-import { defaultNavigation } from '../theme';
-
-const TouchableView = styled(View)`
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ListTextStyled = styled(Text)`
-  font-family: 'product-sans';
-  color: ${({ theme, small }) => (small ? theme.colors.darkGray : theme.colors.dark)};
-  font-size: ${({ small }) => (small ? '16px' : '18px')};
-  ${({ small, theme }) =>
-    small &&
-    css`
-      background-color: ${theme.colors.gray};
-      padding: 4px 11px;
-      border-radius: 50px;
-    `}
-`;
+import { Container, Decks } from '../components';
+import { ActivityIndicator } from 'react-native';
+import { theme } from '../theme';
+import { getDeck } from '../utils/storage';
 
 export default class HomeScreen extends React.Component {
-  render() {
+  state = {
+    decks: [],
+    loading: false,
+  };
+
+  navigationHandler = page => {
     const { navigate } = this.props.navigation;
+
+    navigate(page);
+  };
+
+  isLoading = value => {
+    this.setState({
+      loading: value,
+    });
+  };
+
+  retrieveData = () => {
+    this.isLoading(true);
+    getDeck().then(success => {
+      this.setState({
+        decks: success ? success : [],
+        loading: false,
+      });
+    });
+  };
+
+  componentDidMount() {
+    this.retrieveData();
+  }
+
+  render() {
+    const { decks, loading } = this.state;
+
     return (
       <Container>
-        <FlatList
-          data={mockData}
-          renderItem={({ item }) => (
-            <TouchableContainer onPress={() => navigate('Links')} underlayColor="white">
-              <TouchableView>
-                <ListTextStyled>{item.title}</ListTextStyled>
-                <ListTextStyled small as={View}>
-                  <ListTextStyled>{item.questions.length}</ListTextStyled>
-                </ListTextStyled>
-              </TouchableView>
-            </TouchableContainer>
-          )}
-        />
+        {loading ? (
+          <ActivityIndicator size="large" color={theme.colors.purple} />
+        ) : (
+          <Decks decks={decks} navigationHandler={this.navigationHandler} />
+        )}
       </Container>
     );
   }

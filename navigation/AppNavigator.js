@@ -9,7 +9,8 @@ import {
 
 import { TabBarIcon } from '../components';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import NewDeck from '../screens/NewDeck';
+import Deck from '../screens/Deck';
 import { theme, defaultNavigation } from '../theme';
 
 const router = {
@@ -21,7 +22,7 @@ const router = {
     },
   },
   NewDeck: {
-    screen: LinksScreen,
+    screen: NewDeck,
     navigationOptions: {
       tabBarLabel: 'New Deck',
       tabBarIcon: ({ focused }) => Platform.OS === 'ios' && <TabBarIcon name="ios-add-circle" focused={focused} />,
@@ -68,8 +69,8 @@ export default createAppContainer(
           ? createBottomTabNavigator(router, navigationOptions)
           : createMaterialTopTabNavigator(router, navigationOptions),
     },
-    Links: {
-      screen: LinksScreen,
+    Deck: {
+      screen: Deck,
       navigationOptions: {
         title: 'Deck',
         ...defaultNavigation,

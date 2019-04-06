@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 export const Container = styled(View)`
   background-color: ${({ theme }) => theme.colors.lightGray};
   flex: 1;
+  justify-content: center;
 `;
 
 export const TouchableContainer = styled(TouchableOpacity)`
