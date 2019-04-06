@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from 'expo';
-import { theme } from '../theme';
+import { theme } from '../../theme';
 
 export default class TabBarIcon extends React.Component {
   render() {

@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import { createDeck } from '../utils/storage';
 import { addDeck } from '../actions';
 import { theme } from '../theme';
-import { Title, TextButton } from '../components';
-import { Container } from '../components/StyledContainers';
+import { Title, TextButton, Container } from '../components';
 
 const ViewStyled = styled(KeyboardAvoidingView)`
   flex: 1;

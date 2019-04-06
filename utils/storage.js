@@ -1,4 +1,3 @@
-import { mockData } from '../constants/mock';
 import { AsyncStorage } from 'react-native';
 import { format } from './format';
 

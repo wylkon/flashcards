@@ -6,8 +6,8 @@ import { func } from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
 
 import { TextButton } from '../TextButton';
-import { StyledText } from '../StyledText';
-import { TouchableContainer } from '../StyledContainers';
+import { StyledText } from '../Texts';
+import { TouchableContainer } from '../Containers';
 import { theme } from '../../theme';
 
 const TouchableView = styled(View)`

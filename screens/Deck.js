@@ -1,18 +1,17 @@
 import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import { Text } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
+import { Container } from '../components';
 
 // removes extra space at top of header on android
 SafeAreaView.setStatusBarHeight(0);
 
 export default class Deck extends React.Component {
-  static navigationOptions = {
-    title: 'app.json',
-  };
-
   render() {
-    /* Go ahead and delete ExpoConfigView and replace it with your
-     * content, we just wanted to give you a quick view of your config */
-    return <ExpoConfigView />;
+    return (
+      <Container>
+        <Text>Text</Text>
+      </Container>
+    );
   }
 }

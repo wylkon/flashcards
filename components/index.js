@@ -1,5 +1,6 @@
-export * from './StyledContainers';
-export { default as TabBarIcon } from './TabBarIcon';
+export * from './Containers';
 export * from './Decks';
-export * from './Title';
 export * from './TextButton';
+export * from './Texts';
+export * from './Title';
+export { default as TabBarIcon } from './TabBarIcon';
