@@ -1,8 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ActivityIndicator, KeyboardAvoidingView, TextInput } from 'react-native';
+import { theme } from '../theme';
 import styled from 'styled-components';
+
+import { createQuestion, getDeck } from '../utils/storage';
 import { Title, TextButton, Container } from '../components';
+import { receiveDecks } from '../actions';
 
 const ViewStyled = styled(KeyboardAvoidingView)`
   flex: 1;
@@ -38,30 +42,47 @@ class NewQuestion extends React.Component {
     });
   };
 
-  createNewDeck = () => {
-    // const {
-    //   navigation: { navigate },
-    //   addDeck,
-    // } = this.props;
-    // const { deckName } = this.state;
-    // const newDeck = { [deckName]: { title: deckName, questions: [] } };
-    // this.isLoading(true);
-    // createDeck(newDeck)
-    //   .then(() => {
-    //     addDeck(newDeck);
-    //   })
-    //   .then(() => {
-    //     this.setState({
-    //       deckName: '',
-    //     });
-    //     this.isLoading(false);
-    //     navigate('Home');
-    //   });
+  createNewQuestion = () => {
+    const {
+      navigation: {
+        goBack,
+        state: {
+          params: { key },
+        },
+      },
+      receiveDecks,
+    } = this.props;
+
+    const { question, answer } = this.state;
+    const newQuestion = { question, answer };
+
+    this.isLoading(true);
+
+    createQuestion({ question: newQuestion, key })
+      .then(() => {
+        getDeck().then(success => {
+          receiveDecks(success);
+        });
+      })
+      .then(() => {
+        this.setState({
+          question: '',
+          answer: '',
+        });
+        this.isLoading(false);
+        goBack();
+      });
   };
 
   render() {
     const { question, answer, loading } = this.state;
-    const { decks } = this.props;
+    const {
+      navigation: {
+        state: {
+          params: { key },
+        },
+      },
+    } = this.props;
 
     return loading ? (
       <Container>
@@ -69,7 +90,7 @@ class NewQuestion extends React.Component {
       </Container>
     ) : (
       <ViewStyled behavior="padding" enabled>
-        <Title>Create a new question</Title>
+        <Title>Create a new question for {key} deck</Title>
         <Label>Question:</Label>
         <TextInputStyled
           value={question}
@@ -86,7 +107,7 @@ class NewQuestion extends React.Component {
         />
         <TextButton
           title="Submit"
-          onPress={this.createNewDeck}
+          onPress={this.createNewQuestion}
           disabled={question.trim() === '' || answer.trim() === ''}
         />
       </ViewStyled>
@@ -98,4 +119,7 @@ const mapStateToProps = decks => ({
   decks,
 });
 
-export default connect(mapStateToProps)(NewQuestion);
+export default connect(
+  mapStateToProps,
+  { receiveDecks }
+)(NewQuestion);
