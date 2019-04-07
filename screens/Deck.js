@@ -62,7 +62,7 @@ class Deck extends React.Component {
           <Fragment>
             <StyledText small>{questions === 1 ? '1 Question' : `${questions} Questions`}</StyledText>
             <TextButton title="Create new question" onPress={() => navigate('NewQuestion', { key: title })} />
-            <TextButton title="Start quiz" onPress={() => navigate('Quiz')} secondary />
+            <TextButton title="Start quiz" onPress={() => navigate('Quiz', { deck: actualDeck[title] })} secondary />
           </Fragment>
         ) : (
           <Fragment>

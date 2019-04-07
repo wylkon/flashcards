@@ -81,7 +81,6 @@ export default createAppContainer(
       screen: Quiz,
       navigationOptions: {
         ...defaultNavigation,
-        title: 'Quiz',
       },
     },
     NewQuestion: {

@@ -3,9 +3,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import { StatusBar, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon, Constants } from 'expo';
 import { createStore } from 'redux';
-import reducer from './reducers';
 import { Provider } from 'react-redux';
 
+import { setLocalNotification } from './utils/notification';
+import reducer from './reducers';
 import AppNavigator from './navigation/AppNavigator';
 import { Container } from './components';
 import { theme } from './theme';
@@ -20,13 +21,17 @@ export default class App extends React.Component {
     isLoadingComplete: false,
   };
 
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
+          startAsync={this.loadResourcesAsync}
+          onError={this.handleLoadingError}
+          onFinish={this.handleFinishLoading}
         />
       );
     } else {
@@ -45,7 +50,7 @@ export default class App extends React.Component {
     }
   }
 
-  _loadResourcesAsync = async () => {
+  loadResourcesAsync = async () => {
     return Promise.all([
       // Adicionar a lista de assets que será carregado "require('./assets/images/robot-dev.png')"
       Asset.loadAsync([]),
@@ -56,11 +61,11 @@ export default class App extends React.Component {
     ]);
   };
 
-  _handleLoadingError = error => {
+  handleLoadingError = error => {
     console.warn(error);
   };
 
-  _handleFinishLoading = () => {
+  handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
 }

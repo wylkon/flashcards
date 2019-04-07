@@ -3,7 +3,6 @@ export const ADD_DECK = 'ADD_DECK';
 export const ADD_QUESTION = 'ADD_QUESTION';
 
 export function receiveDecks(decks) {
-  console.log(decks);
   return {
     type: RECEIVE_DECKS,
     decks,
