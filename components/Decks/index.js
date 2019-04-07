@@ -41,9 +41,11 @@ export const Decks = ({ navigationHandler, decks }) => {
   return decks && Object.keys(decks).length ? (
     <FlatList
       data={Object.entries(decks)}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={item => item[1].title}
       renderItem={({ item }) => (
-        <TouchableContainer onPress={() => navigationHandler('Deck')} underlayColor={theme.colors.white}>
+        <TouchableContainer
+          onPress={() => navigationHandler('Deck', { title: item[1].title })}
+          underlayColor={theme.colors.white}>
           <TouchableView>
             <ListTextStyled>{item[1].title}</ListTextStyled>
             <ListTextStyled small as={View}>

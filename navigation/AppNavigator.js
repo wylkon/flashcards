@@ -11,6 +11,8 @@ import { TabBarIcon } from '../components';
 import HomeScreen from '../screens/HomeScreen';
 import NewDeck from '../screens/NewDeck';
 import Deck from '../screens/Deck';
+import Quiz from '../screens/Quiz';
+import NewQuestion from '../screens/NewQuestion';
 import { theme, defaultNavigation } from '../theme';
 
 const router = {
@@ -72,8 +74,21 @@ export default createAppContainer(
     Deck: {
       screen: Deck,
       navigationOptions: {
-        title: 'Deck',
         ...defaultNavigation,
+      },
+    },
+    Quiz: {
+      screen: Quiz,
+      navigationOptions: {
+        ...defaultNavigation,
+        title: 'Quiz',
+      },
+    },
+    NewQuestion: {
+      screen: NewQuestion,
+      navigationOptions: {
+        ...defaultNavigation,
+        title: 'New Question',
       },
     },
   })

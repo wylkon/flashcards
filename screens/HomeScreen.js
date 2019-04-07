@@ -11,10 +11,10 @@ class HomeScreen extends React.Component {
     loading: false,
   };
 
-  navigationHandler = page => {
+  navigationHandler = (page, params) => {
     const { navigate } = this.props.navigation;
 
-    navigate(page);
+    navigate(page, params);
   };
 
   isLoading = value => {

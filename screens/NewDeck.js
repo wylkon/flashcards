@@ -17,7 +17,7 @@ const ViewStyled = styled(KeyboardAvoidingView)`
 const TextInputStyled = styled(TextInput)`
   height: 60px;
   font-size: 24px;
-  border: 1px solid ${({ theme }) => theme.colors.purple};
+  border: 1px solid ${({ theme }) => theme.colors.darkPurple};
   padding: 10px;
   margin-top: 24px;
   text-align: center;
@@ -72,7 +72,7 @@ class NewDeck extends React.Component {
         <Title>What is the title of your new deck?</Title>
         <TextInputStyled
           value={deckName}
-          placeholder="Type here a name of deck"
+          placeholder="Type here the name of deck"
           onChangeText={deckName => this.setState({ deckName })}
         />
         <TextButton title="Submit" onPress={this.createNewDeck} disabled={deckName.trim() === '' || isDuplicated} />

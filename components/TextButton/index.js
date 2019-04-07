@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import styled, { css } from 'styled-components';
 
 const Button = styled(TouchableOpacity)`
-  background-color: ${({ theme }) => theme.colors.purple};
+  background-color: ${({ theme, secondary }) => (secondary ? theme.colors.purple : theme.colors.darkPurple)};
   color: #fff;
   padding: 16px;
   margin-top: 16px;
@@ -22,8 +22,8 @@ const StyledText = styled(Text)`
   text-align: center;
 `;
 
-export const TextButton = ({ onPress, title, disabled }) => (
-  <Button onPress={onPress} disabled={disabled}>
+export const TextButton = ({ onPress, title, disabled, secondary }) => (
+  <Button onPress={onPress} disabled={disabled} secondary={secondary}>
     <StyledText>{title}</StyledText>
   </Button>
 );
