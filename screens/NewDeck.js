@@ -54,7 +54,7 @@ class NewDeck extends React.Component {
           deckName: '',
         });
         this.isLoading(false);
-        navigate('Home');
+        navigate('Deck', { title: deckName });
       });
   };
 
