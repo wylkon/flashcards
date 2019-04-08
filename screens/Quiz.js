@@ -1,12 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { TouchableOpacity, Animated, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { setLocalNotification, clearLocalNotification } from '../utils/notification';
-import { theme } from '../theme';
+import { TouchableOpacity, Animated } from 'react-native';
 
-import { Container, Title, TextButton, StyledText } from '../components';
+import { Container, Title, TextButton, StyledText, Results } from '../components';
 
 const StyledContainer = styled(Container)`
   padding: 0 16px;
@@ -22,10 +19,6 @@ const StyledTitle = styled(Title)`
 const WrapButtons = styled.View`
   flex-direction: row;
   justify-content: space-between;
-`;
-
-const CenterView = styled.View`
-  align-items: center;
 `;
 
 class Quiz extends React.Component {
@@ -93,9 +86,6 @@ class Quiz extends React.Component {
 
     // Atualiza quantas questões faltam
     if (count === totalQuestions) {
-      // Limpa as notivicações e inicia a contagem novamente
-      clearLocalNotification().then(setLocalNotification);
-
       this.setState({
         final: true,
       });
@@ -132,9 +122,8 @@ class Quiz extends React.Component {
       state: {
         params: { deck },
       },
-      goBack,
-      navigate,
     } = this.props.navigation;
+
     const { current, show, bounceValue, final, correct } = this.state;
 
     return !final ? (
@@ -161,22 +150,7 @@ class Quiz extends React.Component {
         </WrapButtons>
       </StyledContainer>
     ) : (
-      <StyledContainer>
-        <CenterView>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-star' : 'md-star'} size={60} color={theme.colors.purple} />
-        </CenterView>
-        <Title>You finished that!</Title>
-        {correct === 0 ? (
-          <StyledText>Sorry, you must study more. Don't give up!</StyledText>
-        ) : (
-          <StyledText>
-            Congratulations, you got {correct === 1 ? '1 question' : `${correct} questions`} right!
-          </StyledText>
-        )}
-        <TextButton title="Restart quiz" onPress={this.restartQuiz} secondary />
-        <TextButton title="Back to Deck" onPress={() => goBack()} />
-        <TextButton title="Go to Home" onPress={() => navigate('Home')} alt />
-      </StyledContainer>
+      <Results correct={correct} navigation={this.props.navigation} restartQuiz={this.restartQuiz} />
     );
   }
 }
